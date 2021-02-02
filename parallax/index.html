@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Potta+One&family=Roboto&display=swap" rel="stylesheet"> 
+    <style>
+      * {
+        margin: 0;
+      }
+      body {
+        overflow: hidden;
+        height:100%;
+      }
+      .wrapper {
+        position: relative;
+        width: 100vw;
+        height: 300vh;
+      }
+      .layer-1 {
+        background: url(background.png) no-repeat center center;
+        background-size: auto 100%;
+        width: 100vw;
+        height: 100%;
+        top: -40%;
+        position: Absolute;
+        transform: scale(1.05);
+      }
+      .layer-2 {
+        background: url(foreground.png) no-repeat center center;
+        background-size: auto 100%;
+        position: Absolute;
+        left: 0%;
+        top: -40%;
+        z-index: 2;
+        width: 100vw;
+        height: 100%;
+        transform: scale(1.05);
+      }
+      .layer-3 {
+        text-align: center;
+        font-family: 'Potta One', cursive;
+        position: Absolute;
+        left: 50vw;
+        top: 50vh;
+        font-size: 6rem;
+        letter-spacing: 2rem;
+        z-index: 3;
+        transform: translate(-50%, -50%);
+        color: transparent;
+        -webkit-text-stroke-width: 1px;
+        -webkit-text-stroke-color: rgba(255, 255, 255, 0.904);
+      }
+      .layer-4{
+        position: absolute;
+        margin: 30px;
+        border: 1px solid rgba(255, 255, 255, 0.904);
+        border-radius: 5px;
+        -webkit-box-shadow: 5px 5px 15px 5px #000000; 
+        box-shadow: 5px 5px 15px 5px #000000;
+      }
+
+      p{
+        margin: 20px;
+        color: rgba(255, 255, 255, 0.904);
+        font-size: large;
+        font-family: 'Roboto', sans-serif;
+
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="layer-1"></div>
+      <div class="layer-2"></div>
+      <h1 class="layer-3">BALI</h1>
+      <div class="layer-4">
+        <p class="topInfo"></p>
+        <p class="centerInfo"></p>
+      </div>
+    </div>
+  </body>
+  <script>
+    const background = document.querySelector(".layer-1");
+    const foreground = document.querySelector(".layer-2");
+    const text = document.querySelector(".layer-3");
+    const centerInfo = document.querySelector(".centerInfo");
+    const topInfo = document.querySelector(".topInfo");
+
+
+    document.addEventListener("mousemove", (evt) => {
+      console.log(evt.x + " " + evt.y);
+      let mouseX = evt.x;
+      let mouseY = evt.y;
+      let foregroundScale = 1.05 + mouseY / 25000;
+      let backgroundScale = 1.05 + mouseY / 20000;
+      let foregroundX = (mouseX-window.innerWidth/2)/1000;
+      let backgroundX = (mouseX-window.innerWidth/2)/2000;
+      foreground.style.transform =
+        "translateY("+mouseY/-2000+"%) "+"translateX("+((mouseY/-800)+foregroundX)+"%) "+"scale("+foregroundScale+")";
+      background.style.transform =
+        "translateY(" + mouseY / 500 + "%) "+"translateX("+backgroundX+"%) "+ "scale(" + backgroundScale + ")";
+      text.style.fontSize = 6 + mouseY / 500 + "rem";
+      text.style.letterSpacing = 2 + mouseY / 500 + "rem";
+      centerInfo.innerHTML = 'From the top left:</br>'+
+                              'X: '+evt.x+', Y: '+evt.y;
+      topInfo.innerHTML = 'From the middle :</br>'+
+                              'X: '+(mouseX-window.innerWidth/2)+', Y: '+(mouseY-window.innerHeight/2);
+    });
+  </script>
+</html>

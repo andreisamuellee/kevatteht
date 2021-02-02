@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+      }
+
+      @keyframes dogWalk {
+        0% {
+          background-position: 0 0;
+        }
+        100% {
+          background-position: -480px 0;
+        }
+      }
+
+      @keyframes dogWalkMove {
+        0% {
+          background-position: 0 0;
+        }
+        100% {
+          background-position: -480px 0;
+        }
+      }
+
+      @keyframes dogWalkMove2 {
+        0% {
+          background-position: 0 0;
+        }
+        100% {
+          background-position: -480px 0;
+        }
+      }
+
+      @keyframes dogSniff {
+        0% {
+          background-position: -360px 0;
+        }
+        100% {
+          background-position: -600px 0;
+        }
+      }
+
+      body {
+        background: url(stage.png) repeat-x;
+        position: relative;
+      }
+
+      .dog {
+        width: 120px;
+        height: 110px;
+        background: url("sprite.png") no-repeat;
+
+        animation: dogWalk 0.5s steps(4) 6, dogSniff 0.5s 3s steps(2) 6;
+
+        position: absolute;
+        top: 550px;
+        left: 10px;
+
+        transition: left 3s linear;
+      }
+
+      .fromLeft {
+        left: 300px;
+      }
+
+      .goLeft {
+        left: -1000px;
+      }
+
+      .goRight {
+        left: +1000px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dog"></div>
+  </body>
+  <script>
+    const dog = document.querySelector(".dog");
+    let walk = false;
+    let holdButtonDown = false;
+
+    document.querySelector("body").addEventListener("keypress", (evt) => {
+      if (!holdButtonDown) {
+        if (evt.code === "KeyA") {
+          walkNow();
+          dog.style.transform = "scale(-1, 1)";
+          dog.style.transition = "left 0.5s linear";
+          let left = getComputedStyle(document.querySelector(".fromLeft")).left;
+          document.querySelector(".fromLeft").style.left =
+            parseInt(left) - 40 + "px";
+        }
+        if (evt.code === "KeyD") {
+          walkNow();
+          dog.style.transform = "scale(1, 1)";
+          dog.style.transition = "left 0.5s linear";
+          let left = getComputedStyle(document.querySelector(".fromLeft")).left;
+          document.querySelector(".fromLeft").style.left =
+            parseInt(left) + 40 + "px";
+        }
+      }
+      holdButtonDown = true;
+    });
+
+    document.querySelector("body").addEventListener("keyup", (evt) => {
+        holdButtonDown = false;
+    });
+
+    const walkNow = () => {
+      if (walk) {
+        dog.style.animation = "dogWalkMove 0.5s steps(4) 1";
+        walk = false;
+      } else {
+        dog.style.animation = "dogWalkMove2 0.5s steps(4) 1";
+        walk = true;
+      }
+    };
+
+    let dogTimer = setTimeout(() => {
+      dog.classList.add("fromLeft");
+    }, 50);
+  </script>
+</html>
